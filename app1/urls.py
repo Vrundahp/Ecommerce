@@ -19,5 +19,6 @@ urlpatterns=[
     path('razorpayview/',razorpayView,name='razorpayview'),
     path('paymenthandler/',paymenthandler,name='paymenthandler'),
     path('successview/',successview,name='ordersuccessview'),
-    path('orderlist/',orderview,name='orderlist')
+    path('orderlist/',orderview,name='orderlist'),
+    path('forgetpassword/',forget,name='forget')
 ]

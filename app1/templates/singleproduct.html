@@ -20,16 +20,11 @@
                                     </div>
                                     
                                 </div>
-
-                                {% if data.productquantity > 0 %}
                                 <form method="POST" action="{% url 'buy' %}">
                                     {% csrf_token %}
-                                    <input type="hidden" value="{{data.id}}" name="id">
+                                    <input type="hidden" value="{{data.id}}" name="ac">
                                     <button type="submit">Buy now</button>
                                 </form>
-                                {% else %}
-                                out of stock
-                                {% endif %} 
                     </div>
                 </section>
             </div>

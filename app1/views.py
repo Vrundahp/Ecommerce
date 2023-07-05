@@ -122,16 +122,19 @@ from django.http import HttpResponseBadRequest
 
 def buynow(request):
     if 'email' in request.session:
-        a=register.objects.get(email=request.session['email'])
-        if request.method=='POST':
-            request.session['productid']=request.POST['id']
+        print(112232)
+        a=user.objects.get(email=request.session['email'])
+        print(a)
+        if request.POST:
+            request.session['productid']=request.POST['ac']
+            print(request.session['productid'])
             request.session['quantity']='1'
             request.session['userid']=a.pk
             request.session['username']=a.username
             request.session['userEmail']=a.email
             request.session['usercontact']=a.phone
-            request.session['address']=a.address
-            b=Product.objects.get(id=request.POST['id'])
+            request.session['address']="xyz"
+            b=Product.objects.get(id=int(request.POST['ac']))
             request.session['productamount']=b.price
             request.session['paymentmethod']='Razorpay'
             request.session['transcationId']=""
@@ -244,3 +247,26 @@ def orderview(request):
         return render(request,'ordertable.html',{'a':a,'prolist':prolist})
     else:
         return HttpResponseBadRequest()
+
+from django.core.mail import send_mail
+def forget(request):
+    if request.POST:
+        useremail=request.POST['email']
+        try:
+            data=user.objects.get(email=useremail)
+            print(useremail)
+            if data:
+                send_mail(
+                "forgot password",
+                "dear "+str(data.username)+"\n your password is :"+str(data.password),
+                "vrundahprajapati@gmail.com",
+                ["vruhp@gmail.com"],
+                fail_silently=False,
+                )
+                return render(request,'forgotps.html',{'message':'password sent to your email'})
+            else:
+                return render(request,'forgotps.html',{'message':'email id not found'})
+        except:
+            return render(request,'forgotps.html',{'message':'email id not found'})
+    return render(request,'forgotps.html')
+    
